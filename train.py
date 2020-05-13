@@ -69,9 +69,9 @@ def main(args):
     #dataset_test, _ = get_dataset(args.dataset, "val", get_transform(train=False), args.data_path)
     
     # Dataset
-    dataset = LoadImagesAndLabels(args.train_path, augment=True)
+    dataset = utils.LoadImagesAndLabels(args.train_path, augment=True)
     num_classes = args.num_classes
-    dataset_test = LoadImagesAndLabels(args.test_path, augment=True)
+    dataset_test = utils.LoadImagesAndLabels(args.test_path, augment=True)
 
     print("Creating data loaders")
     if args.distributed:
