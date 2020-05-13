@@ -157,7 +157,7 @@ if __name__ == "__main__":
     #parser.add_argument('--data-path', default='/datasets01/COCO/022719/', help='dataset')
     #parser.add_argument('--dataset', default='coco', help='dataset')
     parser.add_argument('--train_path', type=str, help='train image path')
-    parser.add_argument('--train_path', type=str, help='test image path')
+    parser.add_argument('--test_path', type=str, help='test image path')
     parser.add_argument('--num_classes', type=int, help='number of classes')
     parser.add_argument('--model', default='maskrcnn_resnet50_fpn', help='model')
     parser.add_argument('--device', default='cuda', help='device')
