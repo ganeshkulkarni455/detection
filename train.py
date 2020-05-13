@@ -81,12 +81,12 @@ def main(args):
         train_sampler = torch.utils.data.RandomSampler(dataset)
         test_sampler = torch.utils.data.SequentialSampler(dataset_test)
 
-    if args.aspect_ratio_group_factor >= 0:
-        group_ids = create_aspect_ratio_groups(dataset, k=args.aspect_ratio_group_factor)
-        train_batch_sampler = GroupedBatchSampler(train_sampler, group_ids, args.batch_size)
-    else:
-        train_batch_sampler = torch.utils.data.BatchSampler(
-            train_sampler, args.batch_size, drop_last=True)
+#     if args.aspect_ratio_group_factor >= 0:
+#         group_ids = create_aspect_ratio_groups(dataset, k=args.aspect_ratio_group_factor)
+#         train_batch_sampler = GroupedBatchSampler(train_sampler, group_ids, args.batch_size)
+#     else:
+#         train_batch_sampler = torch.utils.data.BatchSampler(
+#             train_sampler, args.batch_size, drop_last=True)
 
     data_loader = torch.utils.data.DataLoader(
         dataset, batch_sampler=train_batch_sampler, num_workers=args.workers,
