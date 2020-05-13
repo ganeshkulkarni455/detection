@@ -37,23 +37,23 @@ import utils
 import transforms as T
 
 
-def get_dataset(name, image_set, transform, data_path):
-    paths = {
-        "coco": (data_path, get_coco, 91),
-        "coco_kp": (data_path, get_coco_kp, 2)
-    }
-    p, ds_fn, num_classes = paths[name]
+# def get_dataset(name, image_set, transform, data_path):
+#     paths = {
+#         "coco": (data_path, get_coco, 91),
+#         "coco_kp": (data_path, get_coco_kp, 2)
+#     }
+#     p, ds_fn, num_classes = paths[name]
 
-    ds = ds_fn(p, image_set=image_set, transforms=transform)
-    return ds, num_classes
+#     ds = ds_fn(p, image_set=image_set, transforms=transform)
+#     return ds, num_classes
 
 
-def get_transform(train):
-    transforms = []
-    transforms.append(T.ToTensor())
-    if train:
-        transforms.append(T.RandomHorizontalFlip(0.5))
-    return T.Compose(transforms)
+# def get_transform(train):
+#     transforms = []
+#     transforms.append(T.ToTensor())
+#     if train:
+#         transforms.append(T.RandomHorizontalFlip(0.5))
+#     return T.Compose(transforms)
 
 
 def main(args):
@@ -65,8 +65,13 @@ def main(args):
     # Data loading code
     print("Loading data")
 
-    dataset, num_classes = get_dataset(args.dataset, "train", get_transform(train=True), args.data_path)
-    dataset_test, _ = get_dataset(args.dataset, "val", get_transform(train=False), args.data_path)
+    #dataset, num_classes = get_dataset(args.dataset, "train", get_transform(train=True), args.data_path)
+    #dataset_test, _ = get_dataset(args.dataset, "val", get_transform(train=False), args.data_path)
+    
+    # Dataset
+    dataset = LoadImagesAndLabels(args.train_path, augment=True)
+    num_classes = args.num_classes
+    dataset_test = LoadImagesAndLabels(args.test_path, augment=True)
 
     print("Creating data loaders")
     if args.distributed:
