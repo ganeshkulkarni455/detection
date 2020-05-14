@@ -101,7 +101,7 @@ def main(args):
 
     print("Creating model")
     #model = torchvision.models.detection.__dict__[args.model](num_classes=num_classes,
-                                                              pretrained=args.pretrained)
+    #                                                          pretrained=args.pretrained)
         
     model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
     in_features = model.roi_heads.box_predictor.cls_score.in_features
