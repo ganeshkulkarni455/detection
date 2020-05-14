@@ -36,6 +36,8 @@ from engine import train_one_epoch, evaluate
 import utils
 import transforms as T
 
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+
 
 # def get_dataset(name, image_set, transform, data_path):
 #     paths = {
@@ -100,6 +102,11 @@ def main(args):
     print("Creating model")
     model = torchvision.models.detection.__dict__[args.model](num_classes=num_classes,
                                                               pretrained=args.pretrained)
+    
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    # replace the pre-trained head with a new one
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+    
     model.to(device)
 
     model_without_ddp = model
