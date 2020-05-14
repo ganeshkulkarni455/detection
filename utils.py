@@ -22,7 +22,7 @@ import cv2
 import numpy as np
 import torch
 from PIL import Image, ExifTags
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, Dataloader
 from tqdm import tqdm
 
 img_formats = ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.dng']
