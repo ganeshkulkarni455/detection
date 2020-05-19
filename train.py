@@ -26,7 +26,8 @@ import torch.utils.data
 from torch import nn
 import torchvision
 import torchvision.models.detection
-import torchvision.models.detection.mask_rcnn
+#import torchvision.models.detection.mask_rcnn
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
 from coco_utils import get_coco, get_coco_kp
 
@@ -107,8 +108,11 @@ def main(args):
         collate_fn=utils.collate_fn)
 
     print("Creating model")
-    model = torchvision.models.detection.__dict__[args.model](num_classes=num_classes,
-                                                              pretrained=args.pretrained)
+    
+    model = torchvision.models.detection.__dict__[args.model](pretrained=args.pretrained)
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
+    
     model.to(device)
 
     model_without_ddp = model
