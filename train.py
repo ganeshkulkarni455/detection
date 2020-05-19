@@ -157,7 +157,7 @@ def main(args):
         # evaluate after every epoch
         evaluate(model, data_loader_test, device=device)
         
-        torch.save(model.state_dict(), args.output_dir + f'CP_epoch{epoch + 1}.pth')
+        torch.save(model.state_dict(), args.output_dir + "/" + f'CP_epoch{epoch + 1}.pth')
         
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
