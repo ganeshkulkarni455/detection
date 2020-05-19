@@ -55,7 +55,7 @@ def main(args):
   
   print("Loading model")
 
-  model = torchvision.models.detection.__dict__[args.model](pretrained=False)
+  model = torchvision.models.detection.__dict__[args.model](pretrained=True)
   in_features = model.roi_heads.box_predictor.cls_score.in_features
   model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
 
