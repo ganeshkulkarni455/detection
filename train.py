@@ -156,7 +156,9 @@ def main(args):
 
         # evaluate after every epoch
         evaluate(model, data_loader_test, device=device)
-
+        
+        torch.save(model.state_dict(), args.output_dir)
+        
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     print('Training time {}'.format(total_time_str))
