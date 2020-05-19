@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 import json
 import cv2
-import transforms
+from torchvision import transforms
 import matplotlib.pyplot as plt
 import utils
 from datasets import *
@@ -19,8 +19,8 @@ def get_prediction(img_path, threshold):
   img = Image.open(img_path) # Load the image
   #transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
   #img, _ = transform(img) # Apply the transform to the image
-  trans1 = transforms.ToTensor()
-  img, _ = trans1(img,_)
+  img_transforms = transforms.Compose([transforms.ToTensor()])
+  img = img_transforms(img)
   pred = model([img.to(device)]) # Pass the image to the model
   pred_class = [NAMES[i] for i in list(pred[0]['labels'].numpy())] # Get the Prediction Score
   pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
