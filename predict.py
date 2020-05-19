@@ -51,7 +51,7 @@ def main(args):
   print(args)
   device = torch.device(args.device)
   
-  NAME, num_classes = get_names(args.json_file_path)
+  NAMES, num_classes = get_names(args.json_file_path)
   
   print("Loading model")
 
