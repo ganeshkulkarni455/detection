@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import utils
 from datasets import *
 
-def get_prediction(model, img_path, threshold):
+def get_prediction(model, device, img_path, threshold):
   
   img = Image.open(img_path) # Load the image
   #transform = T.Compose([T.ToTensor()]) # Defing PyTorch Transform
@@ -30,9 +30,9 @@ def get_prediction(model, img_path, threshold):
   pred_class = pred_class[:pred_t+1]
   return pred_boxes, pred_class
 
-def object_detection_api(model, img_path, output_image_path, threshold, rect_th, text_size, text_th):
+def object_detection_api(model, device, img_path, output_image_path, threshold, rect_th, text_size, text_th):
   
-  boxes, pred_cls = get_prediction(model, img_path, threshold) # Get predictions
+  boxes, pred_cls = get_prediction(model, device, img_path, threshold) # Get predictions
   img = cv2.imread(img_path) # Read image with cv2
   img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert to RGB
   for i in range(len(boxes)):
@@ -67,7 +67,7 @@ def main(args):
   for i in range (0, len(imgs)):
     img_path = os.path.join(args.image_folder_path, imgs[i])
     output_image_path = os.path.join(args.output_dir, imgs[i])
-    object_detection_api(model, img_path, output_image_path, args.threshold, args.rect_th, args.text_size, args.text_th)
+    object_detection_api(model, args.device, img_path, output_image_path, args.threshold, args.rect_th, args.text_size, args.text_th)
 
 if __name__ == "__main__":
     import argparse
