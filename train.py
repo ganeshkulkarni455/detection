@@ -35,18 +35,18 @@ from engine import train_one_epoch, evaluate
 
 import utils
 import transforms as T
+from dataset import *
 
 
-def get_dataset(name, image_set, transform, data_path):
-    paths = {
-        "coco": (data_path, get_coco, 91),
-        "coco_kp": (data_path, get_coco_kp, 2)
-    }
-    p, ds_fn, num_classes = paths[name]
+# def get_dataset(name, image_set, transform, data_path):
+#     paths = {
+#         "coco": (data_path, get_coco, 91),
+#         "coco_kp": (data_path, get_coco_kp, 2)
+#     }
+#     p, ds_fn, num_classes = paths[name]
 
-    ds = ds_fn(p, image_set=image_set, transforms=transform)
-    return ds, num_classes
-
+#     ds = ds_fn(p, image_set=image_set, transforms=transform)
+#     return ds, num_classes
 
 def get_transform(train):
     transforms = []
@@ -65,8 +65,22 @@ def main(args):
     # Data loading code
     print("Loading data")
 
-    dataset, num_classes = get_dataset(args.dataset, "train", get_transform(train=True), args.data_path)
-    dataset_test, _ = get_dataset(args.dataset, "val", get_transform(train=False), args.data_path)
+    #dataset, num_classes = get_dataset(args.dataset, "train", get_transform(train=True), args.data_path)
+    #dataset_test, _ = get_dataset(args.dataset, "val", get_transform(train=False), args.data_path)
+    
+    dataset = dataset.CustomeCocoDataset(args.image_folder_path, args.json_file_path,  get_transform(train=True))
+    dataset_test = dataset.CustomeCocoDataset(args.image_folder_path, args.json_file_path,  get_transform(train=False))
+    
+    half = int(len(dataset)/2)
+    # split the dataset in train and test set
+    torch.manual_seed(1)
+    indices = torch.randperm(len(dataset)).tolist()
+
+    #print(indices)
+    dataset = torch.utils.data.Subset(dataset, indices[:-half])
+    dataset_test = torch.utils.data.Subset(dataset_test, indices[-half:])
+
+    NAME, num_classes = dataset.get_names(args.json_file_path)
 
     print("Creating data loaders")
     if args.distributed:
