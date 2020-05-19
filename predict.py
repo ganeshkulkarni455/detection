@@ -22,9 +22,9 @@ def get_prediction(model, device, img_path, threshold):
   img_transforms = transforms.Compose([transforms.ToTensor()])
   img = img_transforms(img)
   pred = model([img.to(device)]) # Pass the image to the model
-  pred_class = [NAMES[i] for i in list(pred[0]['labels'].numpy())] # Get the Prediction Score
-  pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().numpy())] # Bounding boxes
-  pred_score = list(pred[0]['scores'].detach().numpy())
+  pred_class = [NAMES[i] for i in list(pred[0]['labels'].cpu().numpy())] # Get the Prediction Score
+  pred_boxes = [[(i[0], i[1]), (i[2], i[3])] for i in list(pred[0]['boxes'].detach().cpu().numpy())] # Bounding boxes
+  pred_score = list(pred[0]['scores'].detach().cpu().numpy())
   pred_t = [pred_score.index(x) for x in pred_score if x > threshold][-1] # Get list of index with score greater than threshold.
   pred_boxes = pred_boxes[:pred_t+1]
   pred_class = pred_class[:pred_t+1]
