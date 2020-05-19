@@ -67,7 +67,7 @@ def main(args):
   for i in range (0, len(imgs)):
     img_path = os.path.join(args.image_folder_path, imgs[i])
     output_image_path = os.path.join(args.output_dir, imgs[i])
-    object_detection_api(img_path, output_image_path, args.threshold, args.rect_th, args.text_size, args.text_th)
+    object_detection_api(model, img_path, output_image_path, args.threshold, args.rect_th, args.text_size, args.text_th)
 
 if __name__ == "__main__":
     import argparse
