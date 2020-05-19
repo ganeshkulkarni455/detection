@@ -63,6 +63,8 @@ def main(args):
   
   model.to(device)
   
+  model.eval()
+  
   imgs = list(sorted(os.listdir(args.image_folder_path)))
   for i in range (0, len(imgs)):
     img_path = os.path.join(args.image_folder_path, imgs[i])
