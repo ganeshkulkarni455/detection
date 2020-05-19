@@ -81,7 +81,7 @@ class PennFudanDataset(torch.utils.data.Dataset):
         # load all image files, sorting them to
         # ensure that they are aligned
         self.imgs = list(sorted(os.listdir(image_folder_path)))
-        #self.masks = list(sorted(os.listdir(json_file_path)))
+        self.masks = list(sorted(os.listdir(json_file_path)))
 
     def __getitem__(self, idx):
         # load images ad masks
