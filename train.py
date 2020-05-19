@@ -68,8 +68,8 @@ def main(args):
     #dataset, num_classes = get_dataset(args.dataset, "train", get_transform(train=True), args.data_path)
     #dataset_test, _ = get_dataset(args.dataset, "val", get_transform(train=False), args.data_path)
     
-    dataset = datasets.CustomeCocoDataset(args.image_folder_path, args.json_file_path,  get_transform(train=True))
-    dataset_test = datasets.CustomeCocoDataset(args.image_folder_path, args.json_file_path,  get_transform(train=False))
+    dataset = CustomeCocoDataset(args.image_folder_path, args.json_file_path,  get_transform(train=True))
+    dataset_test = CustomeCocoDataset(args.image_folder_path, args.json_file_path,  get_transform(train=False))
     
     half = int(len(dataset)/2)
     # split the dataset in train and test set
@@ -80,7 +80,7 @@ def main(args):
     dataset = torch.utils.data.Subset(dataset, indices[:-half])
     dataset_test = torch.utils.data.Subset(dataset_test, indices[-half:])
 
-    NAME, num_classes = datasets.get_names(args.json_file_path)
+    NAME, num_classes = get_names(args.json_file_path)
 
     print("Creating data loaders")
     if args.distributed:
