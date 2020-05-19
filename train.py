@@ -145,7 +145,7 @@ def main(args):
             train_sampler.set_epoch(epoch)
         train_one_epoch(model, optimizer, data_loader, device, epoch, args.print_freq)
         lr_scheduler.step()
-        if args.output_dir:
+        if not args.output_dir:
             utils.save_on_master({
                 'model': model_without_ddp.state_dict(),
                 'optimizer': optimizer.state_dict(),
@@ -156,6 +156,8 @@ def main(args):
 
         # evaluate after every epoch
         evaluate(model, data_loader_test, device=device)
+        
+        torch.save(model.state_dict(), args.output_dir + f'CP_epoch{epoch + 1}.pth')
         
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
